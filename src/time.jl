@@ -34,7 +34,7 @@ current_time(::Trader) = current_time()
 # TODO maybe use everywhere a way to supply what the local
 # timezone is
 """
-    market_open_close(time, timezone=tz"EST")
+     market_open_close(time, timezone=tz"America/New_York")
 
 Returns the open and closing time of the market located in `timezone`, and converts it to the local timezone, i.e. central european time.
 It assumes opening at 9:30am and closing at 4pm.
@@ -45,13 +45,13 @@ julia> Trading.market_open_close(DateTime("2023-04-05"))
 (DateTime("2023-04-05T15:30:00"), DateTime("2023-04-05T22:00:00"))
 ```
 """
-function market_open_close(date, timezone = tz"EST")
+function market_open_close(date, timezone = tz"America/New_York")
     y = round(date, Year, RoundDown)
     d = round(date, Day, RoundDown)
 
     open  = astimezone(ZonedDateTime(d + Hour(8) + Minute(30), timezone), LOCAL_TZ)
     close = astimezone(ZonedDateTime(d + Hour(15), timezone), LOCAL_TZ)
-
+    
     return TimeDate(DateTime(open)), TimeDate(DateTime(close))
 end
 
